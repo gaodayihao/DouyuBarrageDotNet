@@ -106,14 +106,14 @@ namespace DouyuBarrageDotNet
                 }
                 Debug.Assert(read == memory.Length);
 
-                return intBuffer[0] + (intBuffer[1] << 8) + (intBuffer[2] << 16) + (intBuffer[3] << 24);
+                return intBuffer[0] | (intBuffer[1] << 8) | (intBuffer[2] << 16) | (intBuffer[3] << 24);
             }
 
             async ValueTask<short> ReadInt16Async()
             {
                 var result = await stream.ReceiveAsync(int16Buffer, cancellationToken);
                 Debug.Assert(result.Count == int16Buffer.Length);
-                return (short)(intBuffer[0] + (intBuffer[1] << 8));
+                return (short)(intBuffer[0] | (intBuffer[1] << 8));
             }
 
             async ValueTask<byte> ReadByteAsync()

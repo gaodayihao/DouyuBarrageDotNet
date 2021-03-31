@@ -65,8 +65,8 @@ namespace DouyuBarrageDotNet
                 foreach (var field in str.Split(new[] { '/' }, StringSplitOptions.RemoveEmptyEntries))
                 {
                     var tokens = field.Split(new[] { "@=" }, StringSplitOptions.None);
-                    var k = tokens[0];
-                    var v = UnscapeSlashAt(tokens[1]);
+                    var k = UnscapeSlashAt(tokens[0]);
+                    var v = tokens[1];
                     result[k] = DecodeStringToJObject(v);
                 }
                 return result;
