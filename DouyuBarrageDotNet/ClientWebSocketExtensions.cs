@@ -73,7 +73,6 @@ namespace DouyuBarrageDotNet
 
         public static async Task<string> ReceiveStringAsync(this ClientWebSocket stream, CancellationToken cancellationToken)
         {
-            var buffer = ArrayPool<byte>.Shared.Rent(65536);
             var intBuffer = new byte[4];
             var int32Buffer = new Memory<byte>(intBuffer, 0, 4);
             var int16Buffer = int32Buffer.Slice(0, 2);
@@ -84,6 +83,7 @@ namespace DouyuBarrageDotNet
             Debug.Assert(fullMsgLength == fullMsgLength2);
 
             int length = fullMsgLength - 1 - 4 - 4;
+            var buffer = ArrayPool<byte>.Shared.Rent(length);
             var packType = await ReadInt16Async();
             Debug.Assert(packType == ServerSendToClient);
             short encrypted = await ReadByteAsync();
