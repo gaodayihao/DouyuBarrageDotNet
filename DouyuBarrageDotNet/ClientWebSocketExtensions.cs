@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Buffers;
 using System.Diagnostics;
 using System.Net.WebSockets;
 using System.Text;
@@ -72,7 +73,7 @@ namespace DouyuBarrageDotNet
 
         public static async Task<string> ReceiveStringAsync(this ClientWebSocket stream, CancellationToken cancellationToken)
         {
-            var buffer = new byte[65536];
+            var buffer = ArrayPool<byte>.Shared.Rent(65536);
             var intBuffer = new byte[4];
             var int32Buffer = new Memory<byte>(intBuffer, 0, 4);
             var int16Buffer = int32Buffer.Slice(0, 2);
@@ -92,6 +93,7 @@ namespace DouyuBarrageDotNet
             Memory<byte> bytes = await ReadBytesAsync(length).ConfigureAwait(false);
             byte zero = await ReadByteAsync().ConfigureAwait(false);
             Debug.Assert(zero == ByteZero);
+            ArrayPool<byte>.Shared.Return(buffer);
 
             return Encoding.UTF8.GetString(bytes.Span);
 
