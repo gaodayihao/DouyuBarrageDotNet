@@ -59,7 +59,7 @@ namespace DouyuBarrageDotNet.Desktop
     {
         private readonly LayeredRenderWindow _renderWindow;
         private readonly LinkedList<OnScreenBarrage> _barrages;
-        const float FontSize = 35;
+        const float FontSize = 25;
 
         public Observer(LayeredRenderWindow renderWindow, LinkedList<OnScreenBarrage> barrages)
         {
@@ -81,7 +81,7 @@ namespace DouyuBarrageDotNet.Desktop
             {
                 var osb = new OnScreenBarrage
                 {
-                    Position = new Vector2(_renderWindow.XResource.RenderTarget.Size.Width - 1, GetNewY()),
+                    Position = new Vector2(_renderWindow.XResource.RenderTarget.Size.Width, GetNewY()),
                     TextLayout = _renderWindow.XResource.TextLayouts[value.Message, FontSize],
                     Color = new Color((value.Color << 8) + 0xff),
                 };
